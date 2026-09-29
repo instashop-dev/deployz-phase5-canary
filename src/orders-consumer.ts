@@ -7,6 +7,8 @@ import {
 } from '@aws-sdk/client-sqs';
 import { Pool } from 'pg';
 
+import { ensureSchema } from './schema';
+
 const queueUrl = process.env.ORDERS_QUEUE_URL ?? '';
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
@@ -43,4 +45,4 @@ async function poll(): Promise<void> {
   }
 }
 
-void poll();
+void ensureSchema().then(poll);
