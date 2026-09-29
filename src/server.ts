@@ -1,0 +1,16 @@
+[
+      "import express from 'express';",
+      "import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';",
+      'const app = express();',
+      "const sqs = new SQSClient({});",
+      "app.get('/health', (_req, res) => res.json({ ok: true }));",
+      "app.post('/orders', async (req, res) => {",
+      '  await sqs.send(new SendMessageCommand({',
+      '    QueueUrl: process.env.ORDERS_QUEUE_URL,',
+      '    MessageBody: JSON.stringify(req.body),',
+      '  }));',
+      '  res.status(202).json({ ok: true });',
+      '});',
+      'app.listen(process.env.PORT || 3000);',
+      '',
+    ].join('\n')

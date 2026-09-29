@@ -1,0 +1,8 @@
+[
+      'services:',
+      '  - type: cron',
+      '    name: cleanup',
+      '    schedule: "0 3 * * *"',
+      '    startCommand: node dist/scheduled.js',
+      '',
+    ].join('\n')
