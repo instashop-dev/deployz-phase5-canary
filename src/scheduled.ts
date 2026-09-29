@@ -1,13 +1,21 @@
-[
-      "import pg from 'pg';",
-      "import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';",
-      'const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });',
-      'const s3 = new S3Client({});',
-      'async function run() {',
-      "  await pool.query(\"DELETE FROM orders WHERE created_at < NOW() - INTERVAL '7 days'\");",
-      '  await s3.send(new DeleteObjectCommand({ Bucket: process.env.AWS_S3_BUCKET, Key: "tmp/expired" }));',
-      '  process.exit(0);',
-      '}',
-      'run();',
-      '',
-    ].join('\n')
+// Scheduled-job process: runs once per ECS task. INSERTs a tick row to
+// demonstrate that the EventBridge Scheduler -> ECS RunTask path fires.
+import { Pool } from 'pg';
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+async function main(): Promise<void> {
+  await pool.query(
+    'INSERT INTO ticks (ran_at, note) VALUES (NOW(), $1)',
+    ['canary-scheduled-task-fired'],
+  );
+  await pool.end();
+  // eslint-disable-next-line no-console
+  console.log('scheduled task tick recorded');
+}
+
+main().catch((err) => {
+  // eslint-disable-next-line no-console
+  console.error('scheduled task failed', err);
+  process.exit(1);
+});

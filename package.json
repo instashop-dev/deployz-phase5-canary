@@ -1,23 +1,22 @@
 {
-  "name": "async-pg-worker-app",
+  "name": "deployz-phase5-canary",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node dist/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "start:web": "node dist/web.js",
+    "start:worker": "node dist/worker.js",
+    "start:scheduled": "node dist/scheduled.js"
   },
   "dependencies": {
-    "express": "^4.18.0",
-    "pg": "^8.12.0",
-    "@prisma/client": "^5.14.0",
     "@aws-sdk/client-sqs": "^3.600.0",
-    "@aws-sdk/client-s3": "^3.600.0"
+    "express": "^4.21.0",
+    "pg": "^8.12.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.0",
     "@types/pg": "^8.10.0",
-    "prisma": "^5.14.0",
-    "typescript": "^5.3.0"
+    "typescript": "^5.4.0"
   }
 }

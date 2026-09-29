@@ -1,8 +1,5 @@
-[
-      'services:',
-      '  - type: cron',
-      '    name: cleanup',
-      '    schedule: "0 3 * * *"',
-      '    startCommand: node dist/scheduled.js',
-      '',
-    ].join('\n')
+services:
+  - type: cron
+    name: canary-tick
+    schedule: "*/5 * * * *"
+    startCommand: node dist/scheduled.js

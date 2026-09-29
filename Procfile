@@ -1,1 +1,2 @@
-['web: node dist/server.js', 'worker: node dist/worker.js', ''].join('\n')
+web: node dist/web.js
+worker: node dist/worker.js
